@@ -5,11 +5,12 @@ import { createRoot } from 'react-dom/client'
 // apps
 import './index.css';
 import TodoApp from './apps/todo/TodoApp.jsx';
-//import NotepadApp from './apps/notepad/NotepadApp.jsx';
+import NotesApp from './apps/notes/NotesApp.js';
 
 // root
 createRoot(document.getElementById('root')).render(
 	<StrictMode>
-		<TodoApp />
+		<TodoApp class='app-block' />
+		<NotesApp />
 	</StrictMode>
 );
