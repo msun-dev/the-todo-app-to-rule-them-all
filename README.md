@@ -1,11 +1,12 @@
 # The Todo App To Rule Them All
 
 Todo app that also includes Notepad! Nooone done that before!
+
 (App made for an assignment. Don't even delve into it)
 
 ## Project previews
 
-...
+![INSANE PREVIEW, SO REAL YOU ARE GONNA FALL OF YOUR CHAIR](./previews/1.png)
 
 ## Using project
 
