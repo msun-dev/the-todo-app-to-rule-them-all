@@ -11,6 +11,6 @@ import NotesApp from './apps/notes/NotesApp.js';
 createRoot(document.getElementById('root')).render(
 	<StrictMode>
 		<TodoApp class='app-block' />
-		<NotesApp />
+		<NotesApp class='app-block' />
 	</StrictMode>
 );

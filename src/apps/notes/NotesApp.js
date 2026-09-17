@@ -1,5 +1,5 @@
 // Graphics
-//import "./NotesApp.css";
+import "./NotesApp.css";
 
 // Things
 import React, { useState } from "react";
@@ -67,9 +67,9 @@ function NotesApp() {
 	}
 
 	return (
-		<div>
+		<div className="notes-app">
 			<h1>Notes list:</h1>
-			<form onSubmit={handleSubmit}>
+			<form onSubmit={handleSubmit} className="notes-form">
 				<input type="text" placeholder="Title"
 				       value={note.title}onChange={handleTitleChange}/>
 				<textarea rows="5" columns="40" placeholder="Text"
@@ -84,10 +84,11 @@ function NotesApp() {
 					</button>
 				)}
 			</form>
-			<ul>
+			<ul className="notes-list">
 				{notes.map((n, index) => (
 					<li key={index}>
-						<strong>{n.title}</strong>: {n.text}
+						<strong>{n.title}</strong>
+						<p>{n.text}</p>
 						<button onClick={() => handleEdit(index)}>Edit</button>
 						<button onClick={() => handleRemove(index)}>Delete</button>
 					</li>
