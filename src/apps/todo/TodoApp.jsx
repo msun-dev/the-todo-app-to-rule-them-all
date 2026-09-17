@@ -31,7 +31,7 @@ function TodoApp() {
 		<div className="todo-app">
 			<h1>TODO list:</h1>
 			<form className="todo-form">
-				<input type="text" value={text} onChange={handleChange}/>
+				<input type="text" placeholder="What TO DO?" value={text} onChange={handleChange}/>
 				<button onClick={handleSubmit}>Add Entry</button>
 			</form>
 			<ul className="todo-list">
