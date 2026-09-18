@@ -1,6 +1,6 @@
 # The Todo App To Rule Them All
 
-Todo app that also includes Notepad! Nooone done that before!
+React app that combines TODO and Notes app in the single screen.
 
 (App made for an assignment. Don't even delve into it)
 
