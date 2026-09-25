@@ -9,13 +9,21 @@ const noteObject = {
 	text  : ""
 };
 
+const STATES = {
+	WRITE: "write",
+	EDIT:  "edit"
+}
+
 function NotesApp() {
-	// Note
-	const [note, setNote] = useState(noteObject);
 	// Global
+	const [state, setState] = useState(STATES.WRITE);
 	const [notes, setNotes] = useState([]);
 	const [editNoteIndex, setEditNoteIndex] = useState(null);
+	const [searchQuery, setSearchQuery] = useState("");
+	// Note
+	const [note, setNote] = useState(noteObject);
 
+	// Write
 	function handleTitleChange(e) {
 		setNote({ ...note, title: e.target.value });
 	}
@@ -26,21 +34,57 @@ function NotesApp() {
 
 	function handleSubmit(e) {
 		e.preventDefault();
-		if (!note.title.trim() && !note.text.trim()) return;
 
-		if (editNoteIndex !== null) {
-			const updatedNotes = notes.map((n, i) =>
-				i === editNoteIndex ? { ...note } : n
-			);
-			setNotes(updatedNotes);
-			setEditNoteIndex(null);
-		} else {
-			setNotes([...notes, { ...note }]);
+		switch(state) {
+			case STATES.WRITE:
+				if (!note.title.trim() && !note.text.trim())
+					return;
+				if (editNoteIndex !== null) {
+					const updatedNotes = notes.map(
+						(n, i) => i === editNoteIndex ? { ...note } : n
+					);
+					setNotes(updatedNotes);
+					setEditNoteIndex(null);
+				} else {
+					setNotes([...notes, { ...note }]);
+				}
+				setNote(noteObject);
+				break;
+
+			case STATES.EDIT:
+				setNotes(notes.map((n, i) => i === editNoteIndex ? { ...note } : n));
+				setEditNoteIndex(null);
+				setNote(noteObject);
+				setState(STATES.WRITE);
+				break;
+
+			default:
+				console.log("How did I get there?");
 		}
-		setNote(noteObject);
 	}
 
+	// Edit
+	function handleEditCancel() {
+		setEditNoteIndex(null);
+		setNote(noteObject);
+		setState(STATES.WRITE);
+	}
+
+	// Search
+	function handleSearch(value) {
+		setSearchQuery(value)
+	}
+
+	const filteredNotes = notes
+		.map((n, index) => ({ ...n, index}))
+		.filter((n) =>
+			n.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+			n.text.toLowerCase().includes(searchQuery.toLowerCase())
+	);
+
+	// Notes list
 	function handleEdit(index) {
+		setState(STATES.EDIT);
 		setNote({ ...notes[index] });
 		setEditNoteIndex(index);
 	}
@@ -57,40 +101,44 @@ function NotesApp() {
 		}
 	}
 
-	function handleEditCancel() {
-		setEditNoteIndex(null);
-		setNote(initialNote);
-	}
-
-	function handleSearch() {
-		
-	}
 
 	return (
 		<div className="notes-app">
 			<h1>Notes list:</h1>
-			<form onSubmit={handleSubmit} className="notes-form">
-				<input type="text" placeholder="Title"
-				       value={note.title}onChange={handleTitleChange}/>
-				<textarea rows="5" columns="40" placeholder="Text"
-				          value={note.text} onChange={handleTextChange}>
-				</textarea>
-				<button type="submit">
-					{ editNoteIndex !== null ? "Save Note" : "Add Note" }
-				</button>
-				{ editNoteIndex !== null && (
-					<button type="button" onClick={handleEditCancel}>
-						Cancel
-					</button>
-				)}
-			</form>
+
+			{ // Textareas
+			}
+			<textarea className="notes-form no-resize" rows="1" columns="40" placeholder="Title"
+             value={note.title} onChange={handleTitleChange}/>
+			<textarea className="notes-form" rows="5" columns="40" placeholder="Text"
+             value={note.text} onChange={handleTextChange}/>
+
+			{ // Buttons
+			}
+			<div className="button-row">
+				{ state === STATES.WRITE ? ( <>
+				<button type="button" onClick={handleSubmit}>Add Note</button>
+				</> ) : null }
+				{ state === STATES.EDIT ? ( <>
+				<button type="button" onClick={handleSubmit}>Save Changes</button>
+				<button type="button" onClick={handleEditCancel}>Cancel</button>
+				</> ) : null }
+			</div>
+
+			{ // Search field
+			}
+			<textarea className="notes-form no-resize" rows="1" columns="40"
+                placeholder="Search"
+                value={searchQuery} onChange={(e) => handleSearch(e.target.value)}/>
+
+			{ // Notes list
+			}
 			<ul className="notes-list">
-				{notes.map((n, index) => (
-					<li key={index}>
+				{filteredNotes.map((n) => (
+					<li key={n.index}>
 						<strong>{n.title}</strong>
-						<p>{n.text}</p>
-						<button onClick={() => handleEdit(index)}>Edit</button>
-						<button onClick={() => handleRemove(index)}>Delete</button>
+						<button onClick={() => handleEdit(n.index)}>Edit</button>
+						<button onClick={() => handleRemove(n.index)}>Delete</button>
 					</li>
 				))}
 			</ul>

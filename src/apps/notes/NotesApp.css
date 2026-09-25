@@ -14,11 +14,7 @@
 	display: flex;
 	flex-direction: column;
 	gap: 8px;
-	margin-bottom: 20px;
-}
-
-.notes-form input,
-.notes-form textarea {
+	margin-bottom: 8px;
 	width: 100%;
 	padding: 8px;
 	font-size: 14px;
@@ -27,7 +23,15 @@
 	resize: vertical;
 }
 
-.notes-form button {
+.notes-form.no-resize {
+	resize: none;
+}
+
+.button-row {
+	margin-bottom: 8px;
+}
+
+.button-row button {
 	align-self: flex-start;
 	padding: 8px 12px;
 	font-size: 14px;
@@ -46,6 +50,8 @@
 }
 
 .notes-list li {
+	display: flex;
+	align-items: center;
 	margin: 3px;
 	padding: 10px;
 	font-size: 14px;
@@ -53,15 +59,10 @@
 }
 
 .notes-list strong {
-	display: block;
+	justify-content: center;
+	flex: 1;
 	overflow: hidden;
 	text-overflow: ellipsis;
-}
-
-.notes-list p {
-	overflow: break-word;
-	word-wrap: break-word;
-	white-space: normal;
 }
 
 .notes-list button {
